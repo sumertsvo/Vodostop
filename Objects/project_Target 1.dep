@@ -1,5 +1,5 @@
 Dependencies for Project 'project', Target 'Target 1': (DO NOT MODIFY !)
-F (.\main.c)(0x634812D9)(--c99 -c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_sections-I.\RTE\Device\-AT32F421K8T7-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Firmware\Peripherals\inc-IC:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DAT32F421K8T7-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x634827A7)(--c99 -c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_sections-I.\RTE\Device\-AT32F421K8T7-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Firmware\Peripherals\inc-IC:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DAT32F421K8T7-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Include\at32f421.h)(0x6246B318)
 I (.\RTE\_Target_1\RTE_Components.h)(0x6348137E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\core_cm4.h)(0x626F912E)

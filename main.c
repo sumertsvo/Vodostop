@@ -8,19 +8,19 @@
 //#define DEBUG_PCB
 #define DEBUG_AUTOROTATION
 
-#define PIN_STATE_ALARM 			GPIOA,GPIO_PINS_2
-#define PIN_STATE_MOTOR				GPIOA,GPIO_PINS_3
-#define PIN_CONTROL_RELAY 			GPIOB,GPIO_PINS_5
-#define PIN_POWER_RELAY				GPIOB,GPIO_PINS_4
-#define PIN_LED_RED 				GPIOA,GPIO_PINS_12
+#define PIN_STATE_ALARM 			GPIOB,GPIO_PINS_5
+#define PIN_STATE_MOTOR				GPIOB,GPIO_PINS_4
+#define PIN_CONTROL_RELAY 			GPIOA,GPIO_PINS_3
+#define PIN_POWER_RELAY				GPIOA,GPIO_PINS_2
+#define PIN_LED_SWITCH 				GPIOB,GPIO_PINS_1 
 #ifdef DEBUG_PCB
-#define PIN_ZUMMER 					GPIOA,GPIO_PINS_15//14
+#define PIN_ZUMMER 					GPIOA,GPIO_PINS_15//test_pcb
 #else
-#define PIN_ZUMMER 					GPIOA,GPIO_PINS_14//14
+#define PIN_ZUMMER 					GPIOA,GPIO_PINS_14
 #endif
 #define PIN_POWER_SENSOR 			GPIOA,GPIO_PINS_11
-#define PIN_SENSOR_1 				GPIOA,GPIO_PINS_1
-#define PIN_SENSOR_2 				GPIOA,GPIO_PINS_0
+#define PIN_SENSOR_1 				GPIOA,GPIO_PINS_0
+#define PIN_SENSOR_2 				GPIOA,GPIO_PINS_1
 #define PIN_FUN 					GPIOB,GPIO_PINS_3
 
 
@@ -629,7 +629,7 @@ void hardware_init() {
              GPIO_OUTPUT_PUSH_PULL,
              GPIO_PULL_NONE);
 
-    gpio_set(PIN_LED_RED,
+    gpio_set(PIN_LED_SWITCH,
              GPIO_DRIVE_STRENGTH_MODERATE,
              GPIO_MODE_OUTPUT,
              GPIO_OUTPUT_PUSH_PULL,
@@ -707,7 +707,7 @@ void hardware_work() {
 	gpio_bits_write(PIN_STATE_MOTOR,(confirm_state) (ff.bits.OPENING || ff.bits.OPENED));
     gpio_bits_write(PIN_CONTROL_RELAY,(confirm_state) (ff.bits.RELAY_CONTROL_ON));
     gpio_bits_write(PIN_POWER_RELAY,(confirm_state) (ff.bits.RELAY_POWER_ON));
-    gpio_bits_write(PIN_LED_RED,(confirm_state) (ff.bits.LED_ON));
+    gpio_bits_write(PIN_LED_SWITCH,(confirm_state) (ff.bits.LED_ON));
 	 
     if (ff.bits.TONE_OFF) {
         gpio_bits_reset(PIN_ZUMMER);
@@ -830,7 +830,7 @@ void start_setup() {
 	gpio_bits_reset(PIN_STATE_MOTOR);
     gpio_bits_reset(PIN_POWER_SENSOR);
     gpio_bits_reset(PIN_ZUMMER);
-    gpio_bits_reset(PIN_LED_RED);
+    gpio_bits_reset(PIN_LED_SWITCH);
 
     time_rotation = 0;
     time_relay_power = 0;
