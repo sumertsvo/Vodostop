@@ -378,9 +378,9 @@ ork --depend=.\objects\startup_at32f421.d -o.\objects\startup_at32f421.o -I.\RT
 E\Device\-AT32F421K8T7 -I.\RTE\_Target_1 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.9.0\
 CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Fi
 rmware\Peripherals\inc -IC:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Devic
-e\Include --predefine="__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" -
--predefine="AT32F421K8T7 SETA 1" --list=.\listings\startup_at32f421.lst RTE\Dev
-ice\-AT32F421K8T7\startup_at32f421.s
+e\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 524" 
+--predefine="_RTE_ SETA 1" --predefine="AT32F421K8T7 SETA 1" --list=.\listings\
+startup_at32f421.lst RTE\Device\-AT32F421K8T7\startup_at32f421.s
 
 
 
@@ -959,4 +959,4 @@ Symbol: __use_two_region_memory
       None
 Comment: __use_two_region_memory unused
 3 symbols
-394 symbols in table
+395 symbols in table

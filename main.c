@@ -10,18 +10,18 @@
 
 #define PIN_STATE_ALARM 			GPIOB,GPIO_PINS_5
 #define PIN_STATE_MOTOR				GPIOB,GPIO_PINS_4
-#define PIN_CONTROL_RELAY 			GPIOA,GPIO_PINS_3
+#define PIN_CONTROL_RELAY 		GPIOA,GPIO_PINS_3
 #define PIN_POWER_RELAY				GPIOA,GPIO_PINS_2
 #define PIN_LED_SWITCH 				GPIOB,GPIO_PINS_1 
 #ifdef DEBUG_PCB
-#define PIN_ZUMMER 					GPIOA,GPIO_PINS_15//test_pcb
+#define PIN_ZUMMER 						GPIOA,GPIO_PINS_15//test_pcb
 #else
-#define PIN_ZUMMER 					GPIOA,GPIO_PINS_14
+#define PIN_ZUMMER 						GPIOA,GPIO_PINS_14
 #endif
 #define PIN_POWER_SENSOR 			GPIOA,GPIO_PINS_11
-#define PIN_SENSOR_1 				GPIOA,GPIO_PINS_0
-#define PIN_SENSOR_2 				GPIOA,GPIO_PINS_1
-#define PIN_FUN 					GPIOB,GPIO_PINS_3
+#define PIN_SENSOR_1 					GPIOA,GPIO_PINS_0
+#define PIN_SENSOR_2 					GPIOA,GPIO_PINS_1
+#define PIN_FUN 							GPIOB,GPIO_PINS_3
 
 
 /*_____________________________________________________________________*/
