@@ -2,17 +2,18 @@
 #include "RTE_Components.h"             // Component selection
 #include "at32f421_conf.h"              // ArteryTek::Device:at32f421_conf
 #include "at32f421_gpio.h"
+#include "flash.h"
+//vodostop
 
-
-#define DEBUG
+//#define DEBUG
 //#define DEBUG_PCB
-#define DEBUG_AUTOROTATION
+//#define DEBUG_AUTOROTATION
 
 #define PIN_STATE_ALARM 			GPIOB,GPIO_PINS_5
 #define PIN_STATE_MOTOR				GPIOB,GPIO_PINS_4
-#define PIN_CONTROL_RELAY 			GPIOA,GPIO_PINS_3
-#define PIN_POWER_RELAY				GPIOA,GPIO_PINS_2
-#define PIN_LED_SWITCH 				GPIOB,GPIO_PINS_1 
+#define PIN_CONTROL_RELAY 			GPIOB,GPIO_PINS_1
+#define PIN_POWER_RELAY				GPIOB,GPIO_PINS_0
+#define PIN_LED_SWITCH 				GPIOA,GPIO_PINS_3 
 #ifdef DEBUG_PCB
 #define PIN_ZUMMER 					GPIOA,GPIO_PINS_15//test_pcb
 #else
@@ -23,6 +24,8 @@
 #define PIN_SENSOR_2 				GPIOA,GPIO_PINS_1
 #define PIN_FUN 					GPIOB,GPIO_PINS_3
 
+#define TEST_BUFEER_SIZE                 1024
+#define TEST_FLASH_ADDRESS_START         (0x08003000)
 
 /*_____________________________________________________________________*/
 
@@ -37,6 +40,7 @@ const char MOVING_WAIT_DELAY = 1;
 const unsigned LOW_WATER_RESISTANSE = 20000; 
 const unsigned HIGH_WATER_RESISTANSE = 25000; 
 const unsigned UP_RESISTANSE = 20000; 
+const unsigned DELAY_COUNTER = 20; 
 
 const char WSP_MEAS_COUNT = 4;
 const char FUN_MEAS_COUNT = 3; 
@@ -138,6 +142,12 @@ char beep_double_count;
 
 /*SERVICE*/
 
+uint16_t buffer_write[TEST_BUFEER_SIZE];
+uint16_t buffer_read[TEST_BUFEER_SIZE];
+error_status err_status;
+static char delay_counter = 0;
+
+
 /*sound*/
 void start_tone() {
     ff.bits.ZUM_BUSY = 1;
@@ -221,6 +231,10 @@ void close() {
         ff.bits.OPENED=1;
     }
     if (ff.bits.OPENED && ff.bits.TARGET_POS_CLOSED && !ff.bits.OPENING && !ff.bits.CLOSING) {
+		
+		buffer_write[1]=0xAAAA;
+		err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
+		
         go_close();
     }
 }
@@ -233,6 +247,10 @@ void open() {
         ff.bits.CLOSED=1;
     }
     if (ff.bits.CLOSED && ff.bits.TARGET_POS_OPENED) {
+	
+		buffer_write[1]=0xBBBB;
+		err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
+		
         go_open();
     }
 }
@@ -253,6 +271,8 @@ void relay_tick() {
                 ff.bits.OPENED = 1;
                 ff.bits.OPENING = 0;
                 ff.bits.AUTOROTATION_WORK = 0;
+				buffer_write[1]=0xFFFF;
+				err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
                // beep_short_count = 1;
             }
         }
@@ -278,6 +298,8 @@ void relay_tick() {
                 ff.bits.RELAY_CONTROL_ON = 0;
                 ff.bits.CLOSED = 1;
                 ff.bits.CLOSING = 0;
+				buffer_write[1]=0xFFFF;
+				err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
              //   beep_short_count=2;
             }
         }
@@ -470,11 +492,14 @@ void ms_200_work() {
 
 
 void ms_100_work() {
+	
+
 
     static char switch_sens_delay;
 
     static char f;
 
+	if (delay_counter<DELAY_COUNTER) delay_counter++;
     if ( !ff.bits.ALARM_ON) {
 
         ++switch_sens_delay;
@@ -508,7 +533,7 @@ void ms_100_work() {
 
 void ms_tick() {
 
-//  EventRecord2(0x01,millis,0);
+
 
 
     static uint64_t ms200_count = 0;
@@ -541,7 +566,7 @@ void ms_tick() {
 
 
     ++millis;
-    //	 EventRecord2(0x02,millis,0);
+
 }
 
 /*¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦*/
@@ -851,9 +876,36 @@ int main(void) {
 
 
     start_setup();
-    //  EventRecorderInitialize(EventRecordAll,1);
+   
 
+	flash_read(TEST_FLASH_ADDRESS_START, buffer_read, TEST_BUFEER_SIZE);
+	
+	///*
+	ff.bits.MOVING_ALLOWED = 1;
+	
+	while (DELAY_COUNTER>delay_counter){
+		ff.bits.ALLOW_FUN =1;
+		get_fun();
+		ff.bits.LED_ON = !ff.bits.LED_ON;
+	                                     }
+	if(buffer_read[1] == 0xAAAA)
+	{
+		go_close();
+	}	
+	else if (buffer_read[1] == 0xBBBB)
+	{
+		go_open();	
+	}
+else	
+	{
+	//	if (ff.bits.TARGET_POS_OPENED)  		go_open();	
+	}
+
+	//*/
     while (1) {
+		
+		
+		
 
         wdt_counter_reload();
 
@@ -863,6 +915,7 @@ int main(void) {
         if (!ff.bits.ALARM_ON) {
 
             get_fun();
+			
             fun_work();
 
             get_wsp();

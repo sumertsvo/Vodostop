@@ -384,6 +384,16 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\flash.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -418,6 +428,12 @@
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="at32f421_firmware_library" Csub="crm" Cvendor="ArteryTek" Cversion="2.0.0" condition="AT32F421 STDPERIPHERALS MISC">
+        <package name="AT32F421_DFP" schemaVersion="1.2" vendor="ArteryTek" version="2.0.5"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="at32f421_firmware_library" Csub="flash" Cvendor="ArteryTek" Cversion="2.0.0" condition="AT32F421 STDPERIPHERALS CRM">
         <package name="AT32F421_DFP" schemaVersion="1.2" vendor="ArteryTek" version="2.0.5"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
@@ -474,6 +490,14 @@
       <file attr="config" category="source" name="Device\Firmware\Peripherals\src\at32f421_crm.c" version="2.0.0">
         <instance index="0">RTE\Device\-AT32F421K8T7\at32f421_crm.c</instance>
         <component Cclass="Device" Cgroup="at32f421_firmware_library" Csub="crm" Cvendor="ArteryTek" Cversion="2.0.0" condition="AT32F421 STDPERIPHERALS MISC"/>
+        <package name="AT32F421_DFP" schemaVersion="1.2" vendor="ArteryTek" version="2.0.5"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="Device\Firmware\Peripherals\src\at32f421_flash.c" version="2.0.0">
+        <instance index="0">RTE\Device\-AT32F421K8T7\at32f421_flash.c</instance>
+        <component Cclass="Device" Cgroup="at32f421_firmware_library" Csub="flash" Cvendor="ArteryTek" Cversion="2.0.0" condition="AT32F421 STDPERIPHERALS CRM"/>
         <package name="AT32F421_DFP" schemaVersion="1.2" vendor="ArteryTek" version="2.0.5"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
