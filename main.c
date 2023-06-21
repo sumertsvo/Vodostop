@@ -5,13 +5,17 @@
 #include "flash.h"
 //vodostop
 
+/*
+
+*/
+
 //#define DEBUG
 //#define DEBUG_PCB
 //#define DEBUG_AUTOROTATION
 
 #define PIN_STATE_ALARM 			GPIOB,GPIO_PINS_5
 #define PIN_STATE_MOTOR				GPIOB,GPIO_PINS_4
-#define PIN_CONTROL_RELAY 			GPIOB,GPIO_PINS_1
+#define PIN_CONTROL_RELAY 		GPIOB,GPIO_PINS_1
 #define PIN_POWER_RELAY				GPIOB,GPIO_PINS_0
 #define PIN_LED_SWITCH 				GPIOA,GPIO_PINS_3 
 #ifdef DEBUG_PCB
@@ -19,10 +23,10 @@
 #else
 #define PIN_ZUMMER 					GPIOA,GPIO_PINS_14
 #endif
-#define PIN_POWER_SENSOR 			GPIOA,GPIO_PINS_11
+#define PIN_POWER_SENSOR 		GPIOA,GPIO_PINS_11
 #define PIN_SENSOR_1 				GPIOA,GPIO_PINS_0
 #define PIN_SENSOR_2 				GPIOA,GPIO_PINS_1
-#define PIN_FUN 					GPIOB,GPIO_PINS_3
+#define PIN_FUN 						GPIOB,GPIO_PINS_3
 
 #define TEST_BUFEER_SIZE                 1024
 #define TEST_FLASH_ADDRESS_START         (0x08003000)
@@ -42,7 +46,8 @@ const unsigned HIGH_WATER_RESISTANSE = 25000;
 const unsigned UP_RESISTANSE = 20000; 
 const unsigned DELAY_COUNTER = 20; 
 
-const char WSP_MEAS_COUNT = 4;
+
+const char WSP_MEAS_COUNT = 4;	
 const char FUN_MEAS_COUNT = 3; 
 
 const char RELAY_POWER_WORK_DELAY = 60; // sec
@@ -54,10 +59,14 @@ const uint32_t AUTOROTATION_DELAY = 300;
 const uint32_t AUTOROTATION_DELAY = (AUTOROTATION_DAYS * 24 * 60 * 60); //D*H*M*S
 #endif
 /*voltages*/
+
+
 uint16_t BAD_WSP_VOLTAGE = 0;
 uint16_t GOOD_WSP_VOLTAGE = 0;
+
 uint16_t adc_result_0;
 uint16_t adc_result_1;
+
 char fun_result;
 char sensor_index;
 /*_____________________________________________________________________*/
@@ -67,36 +76,56 @@ static union {
     uint32_t value;
     struct {
 
+			//byte0
+			//state of alarm mode
         unsigned ALARM_ON : 1;
         unsigned ALARM_OFF : 1;
+			//fun switch resulting state
         unsigned FUN_HIGH : 1;
         unsigned FUN_LOW : 1;
+			//allowing to start adc or fun measure
         unsigned ALLOW_MEASURE : 1;
         unsigned ALLOW_FUN : 1;
-        unsigned MEASURING: 1;
+			//adc working
+        unsigned MEASURING: 1; 
+			//desired position of valve
         unsigned TARGET_POS_CLOSED: 1;
-
+			
+			//byte1
         unsigned TARGET_POS_OPENED: 1;
+			//vlve moving state
         unsigned OPENING : 1;
         unsigned OPENED : 1;
         unsigned CLOSING : 1;
         unsigned CLOSED : 1;
+			//hardware flags
         unsigned RELAY_POWER_ON : 1;
         unsigned RELAY_CONTROL_ON : 1;
+			//zummer state
         unsigned TONE_ON : 1;
 
-        unsigned TONE_OFF : 1;
+			//byte2
+		    unsigned TONE_OFF : 1;
+			//alarm melody general flag
         unsigned SIREN : 1;
+			//zummer block
         unsigned ZUM_BUSY : 1;
-        unsigned MOVING_ALLOWED : 1;
+			//
+        unsigned MOVING_ALLOWED : 1; //
         unsigned : 1;
         unsigned : 1;
+				//led hardware flag
         unsigned LED_ON : 1;
+				//bug fix 
         unsigned SEC_LOCK : 1;
 
-        unsigned AUTOROTATION_WORK : 1;
+			//byte3
+			//autorotation state ode flag
+        unsigned AUTOROTATION_WORK : 1; //
+			//melody after delay 
         unsigned MELODY_ON : 1;
-        unsigned  LAST_BEEP_LONG: 1;
+			//flag for melody
+        unsigned LAST_BEEP_LONG: 1; 
         unsigned  : 1;
         unsigned  : 1;
         unsigned  : 1;
@@ -113,7 +142,9 @@ static union {
 /*TIMES*/
 
 /*sec_div*/
+
 uint32_t time_rotation;
+//rele working time counters
 unsigned time_relay_power; 
 unsigned time_relay_control;
 unsigned time_relay_gap;
@@ -132,7 +163,7 @@ unsigned ms_tone_delay = 0;
 
 
 
-/*counters*/
+/*counters for short sounds*/
 char beep_short_count;
 char beep_long_count;
 char beep_double_count;
@@ -142,9 +173,11 @@ char beep_double_count;
 
 /*SERVICE*/
 
+//flash
 uint16_t buffer_write[TEST_BUFEER_SIZE];
 uint16_t buffer_read[TEST_BUFEER_SIZE];
 error_status err_status;
+
 static char delay_counter = 0;
 
 
@@ -178,7 +211,6 @@ void beep_long() {
     start_tone();
 }
 
-
 void beep_double() {
     if (ff.bits.LAST_BEEP_LONG) {
         beep_short();
@@ -188,6 +220,8 @@ void beep_double() {
 }
 
 /*moving*/
+
+//start closing
 void go_close() {
 
     if (!ff.bits.CLOSING && !ff.bits.CLOSED && ff.bits.MOVING_ALLOWED) {
@@ -207,6 +241,8 @@ void go_close() {
     }
 }
 
+
+//start opening
 void go_open() {
 
     if (!ff.bits.OPENED && !ff.bits.OPENING && ff.bits.MOVING_ALLOWED) {
@@ -224,7 +260,7 @@ void go_open() {
 }
 
 
-
+//prepare to close
 void close() {
     if (!ff.bits.CLOSED && !ff.bits.OPENED)
     {
@@ -240,7 +276,7 @@ void close() {
 }
 
 
-
+//prepare to open
 void open() {
     if (!ff.bits.CLOSED && !ff.bits.OPENED)
     {
@@ -255,7 +291,7 @@ void open() {
     }
 }
 
-
+//moving work
 void relay_tick() {
 
     if (ff.bits.OPENING && ff.bits.CLOSING) {
@@ -324,6 +360,7 @@ void clear_alarm() {
     ff.bits.ALARM_OFF = 1;
 }
 
+//work if fun changed
 void fun_work() {
     {
         if (
@@ -356,7 +393,7 @@ void fun_work() {
     }
 }
 
-
+//autorotation work
 void autorotation_work() {
 
     if ((time_rotation > AUTOROTATION_DELAY) &&
@@ -572,16 +609,18 @@ void ms_tick() {
 /*¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦*/
 
 /*HARDWARE*/
+
 char PIN_FUN_STATE_GetValue() {
     return(fun_result);
 }
+
 uint16_t   ADC_GetConversion() {
     if (adc_result_0<adc_result_1)
         return (adc_result_0);
     else return(adc_result_1);
 };
 
-
+//custom gpio configure
 void gpio_set(gpio_type *PORT, uint32_t PIN, gpio_drive_type DRIVE, gpio_mode_type MODE, gpio_output_type OUT_TYPE, gpio_pull_type PULL ) {
 
     gpio_init_type pinx;
@@ -598,11 +637,10 @@ void gpio_set(gpio_type *PORT, uint32_t PIN, gpio_drive_type DRIVE, gpio_mode_ty
 
 }
 
+
 void timer_init() {
 
-
-
-
+	//interrupt for timer
     nvic_irq_enable(TMR6_GLOBAL_IRQn,35,36);
 
     TMR6->iden_bit.ovfien =1;
@@ -617,12 +655,12 @@ void timer_init() {
 
     tmr_counter_enable(TMR6,TRUE);
 
-
-
 }
 
 
 void hardware_init() {
+	
+	//watchdog timer config
 #ifndef DEBUG
     wdt_register_write_enable(TRUE);
     wdt_divider_set(WDT_CLK_DIV_8);
@@ -631,13 +669,11 @@ void hardware_init() {
 
     wdt_counter_reload();
 #endif
-
+		//pereferial clock config
     crm_hick_sclk_frequency_select(CRM_HICK_SCLK_8MHZ);
     crm_clock_source_enable (CRM_CLOCK_SOURCE_HICK,TRUE);
 
     crm_hick_divider_select(CRM_HICK48_NODIV);
-
-
 
     crm_ahb_div_set(CRM_AHB_DIV_1);
 
@@ -647,7 +683,7 @@ void hardware_init() {
     crm_periph_clock_enable(CRM_ADC1_PERIPH_CLOCK,TRUE);
     crm_periph_clock_enable(CRM_TMR6_PERIPH_CLOCK,TRUE);
 
-
+		//gpio config
     gpio_set(PIN_ZUMMER,
              GPIO_DRIVE_STRENGTH_MODERATE,
              GPIO_MODE_OUTPUT,
@@ -712,8 +748,10 @@ void hardware_init() {
 
     timer_init();
 
+		//adc interrupt enable
     nvic_irq_enable(ADC1_CMP_IRQn,37,38);
-
+		
+		//adc config
     adc_base_config_type *adc1;
     adc_base_default_para_init(adc1);
 //   adc1 ->repeat_mode = FALSE;
@@ -727,9 +765,10 @@ void hardware_init() {
 }
 
 
+//working with gpio
 void hardware_work() {
     gpio_bits_write(PIN_STATE_ALARM,(confirm_state) (ff.bits.ALARM_ON));
-	gpio_bits_write(PIN_STATE_MOTOR,(confirm_state) (ff.bits.OPENING || ff.bits.OPENED));
+		gpio_bits_write(PIN_STATE_MOTOR,(confirm_state) (ff.bits.OPENING || ff.bits.OPENED));
     gpio_bits_write(PIN_CONTROL_RELAY,(confirm_state) (ff.bits.RELAY_CONTROL_ON));
     gpio_bits_write(PIN_POWER_RELAY,(confirm_state) (ff.bits.RELAY_POWER_ON));
     gpio_bits_write(PIN_LED_SWITCH,(confirm_state) (ff.bits.LED_ON));
@@ -740,6 +779,7 @@ void hardware_work() {
 }
 
 
+//zummer gpio work
 void zummer_switch() {
 #ifdef DEBUG_PCB
     if(ff.bits.TONE_ON) gpio_bits_write(GPIOA,GPIO_PINS_15,(confirm_state) (!GPIOA ->odt_bit.odt15));
@@ -753,6 +793,8 @@ void zummer_switch() {
 #endif
 #endif
 }
+
+//sensor data processing and anti-bouncing
 void get_wsp() {
 
     if (ff.bits.ALLOW_MEASURE) {
@@ -781,6 +823,8 @@ void get_wsp() {
         ff.bits.ALLOW_MEASURE = 0;
     }
 }
+
+//fun sensor processing and anti-bounsing
 void get_fun() {
     if (ff.bits.ALLOW_FUN) {
         static signed char fun_counter;
@@ -806,11 +850,7 @@ void get_fun() {
 }
 
 
-
-
-
-
-
+//time timer
 void TMR6_GLOBAL_IRQHandler(void) {
 
 
@@ -827,6 +867,7 @@ void TMR6_GLOBAL_IRQHandler(void) {
     TMR6 ->ists_bit.ovfif =0;
 }
 
+//raw sensor data collecting
 void ADC1_CMP_IRQHandler(void) {
     wdt_counter_reload();
     if(sensor_index==0)
@@ -875,12 +916,11 @@ void start_setup() {
 int main(void) {
 
 
-    start_setup();
-   
-
+  start_setup();
+	
 	flash_read(TEST_FLASH_ADDRESS_START, buffer_read, TEST_BUFEER_SIZE);
 	
-	///*
+	
 	ff.bits.MOVING_ALLOWED = 1;
 	
 	while (DELAY_COUNTER>delay_counter){
@@ -903,9 +943,7 @@ else
 
 	//*/
     while (1) {
-		
-		
-		
+				
 
         wdt_counter_reload();
 

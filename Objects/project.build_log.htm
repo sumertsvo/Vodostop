@@ -5,10 +5,10 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.24.2.0
 Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: v se, gid, LIC=Y2BVE-5PIV5-346ST-RDM9E-9XMRE-B6UHS
+License Information: vl sv, gd, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.24.1
+Toolchain:       MDK-Lite  Version: 5.24.1
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 5 (build 528)
 Assembler:       Armasm.exe V5.06 update 5 (build 528)
@@ -21,35 +21,157 @@ Target DLL:      UL2CM3.DLL V1.160.3.0
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-C:\Users\U3B6\Documents\keil\Vodostop\project.uvprojx
-Project File Date:  11/29/2022
+C:\Users\vlads\Documents\GitHub\Vodostop\project.uvprojx
+Project File Date:  06/22/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-compiling at32f421_gpio.c...
-compiling flash.c...
-compiling at32f421_flash.c...
-compiling at32f421_misc.c...
 compiling main.c...
+main.c(10): warning:  #9-D: nested comment is not allowed
+  /*
+main.c(34): warning:  #9-D: nested comment is not allowed
+  /*_____________________________________________________________________*/
+main.c(153): error:  #20: identifier "TEST_BUFEER_SIZE" is undefined
+  uint16_t buffer_write[TEST_BUFEER_SIZE];
+main.c(244): error:  #20: identifier "TEST_FLASH_ADDRESS_START" is undefined
+  		err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
+main.c(260): error:  #20: identifier "TEST_FLASH_ADDRESS_START" is undefined
+  		err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
+main.c(283): error:  #20: identifier "TEST_FLASH_ADDRESS_START" is undefined
+  				err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
+main.c(310): error:  #20: identifier "TEST_FLASH_ADDRESS_START" is undefined
+  				err_status = flash_write(TEST_FLASH_ADDRESS_START, buffer_write, TEST_BUFEER_SIZE);
+main.c(532): error:  #20: identifier "PIN_POWER_SENSOR" is undefined
+              gpio_bits_set(PIN_POWER_SENSOR);
+main.c(532): error:  #165: too few arguments in function call
+              gpio_bits_set(PIN_POWER_SENSOR);
+main.c(659): error:  #20: identifier "PIN_ZUMMER" is undefined
+      gpio_set(PIN_ZUMMER,
+main.c(661): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(662): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(663): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(663): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(665): error:  #20: identifier "PIN_LED_SWITCH" is undefined
+      gpio_set(PIN_LED_SWITCH,
+main.c(667): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(668): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(669): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(669): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(671): error:  #20: identifier "PIN_POWER_RELAY" is undefined
+      gpio_set(PIN_POWER_RELAY,
+main.c(673): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(674): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(675): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(675): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(677): error:  #20: identifier "PIN_CONTROL_RELAY" is undefined
+      gpio_set(PIN_CONTROL_RELAY,
+main.c(679): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(680): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(681): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(681): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(683): error:  #20: identifier "PIN_FUN" is undefined
+      gpio_set(PIN_FUN,
+main.c(685): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_INPUT,
+main.c(686): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(687): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(687): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(689): error:  #20: identifier "PIN_POWER_SENSOR" is undefined
+      gpio_set(PIN_POWER_SENSOR,
+main.c(691): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(692): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(693): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_UP);
+main.c(693): error:  #165: too few arguments in function call
+               GPIO_PULL_UP);
+main.c(695): error:  #20: identifier "PIN_SENSOR_1" is undefined
+      gpio_set(PIN_SENSOR_1,
+main.c(697): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_ANALOG,
+main.c(698): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_OPEN_DRAIN,
+main.c(699): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(699): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(701): error:  #20: identifier "PIN_SENSOR_2" is undefined
+      gpio_set(PIN_SENSOR_2,
+main.c(703): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_ANALOG,
+main.c(704): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_OPEN_DRAIN,
+main.c(705): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(705): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(707): error:  #20: identifier "PIN_STATE_ALARM" is undefined
+      gpio_set(PIN_STATE_ALARM,
+main.c(709): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(710): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(711): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(711): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(713): error:  #20: identifier "PIN_STATE_MOTOR" is undefined
+  	gpio_set(PIN_STATE_MOTOR,
+main.c(715): warning:  #188-D: enumerated type mixed with another type
+               GPIO_MODE_OUTPUT,
+main.c(716): warning:  #188-D: enumerated type mixed with another type
+               GPIO_OUTPUT_PUSH_PULL,
+main.c(717): warning:  #188-D: enumerated type mixed with another type
+               GPIO_PULL_NONE);
+main.c(717): error:  #165: too few arguments in function call
+               GPIO_PULL_NONE);
+main.c(739): error:  #20: identifier "PIN_STATE_ALARM" is undefined
+      gpio_bits_write(PIN_STATE_ALARM,(confirm_state) (ff.bits.ALARM_ON));
+main.c(739): error:  #165: too few arguments in function call
+      gpio_bits_write(PIN_STATE_ALARM,(confirm_state) (ff.bits.ALARM_ON));
+main.c(740): error:  #20: identifier "PIN_STATE_MOTOR" is undefined
+  	gpio_bits_write(PIN_STATE_MOTOR,(confirm_state) (ff.bits.OPENING || ff.bits.OPENED));
+main.c: 32 warnings, 30 errors
+compiling flash.c...
 compiling at32f421_adc.c...
+compiling at32f421_flash.c...
 compiling at32f421_crm.c...
-assembling startup_at32f421.s...
-compiling at32f421_tmr.c...
+compiling at32f421_gpio.c...
+compiling at32f421_misc.c...
 compiling at32f421_wdt.c...
+compiling at32f421_tmr.c...
+assembling startup_at32f421.s...
 compiling system_at32f421.c...
-linking...
-Program Size: Code=6320 RO-data=236 RW-data=100 ZI-data=6756  
-FromELF: creating hex file...
-".\Objects\project.axf" - 0 Error(s), 0 Warning(s).
+".\Objects\project.axf" - 30 Error(s), 32 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
-                ARM.CMSIS.5.9.0
-                CMSIS (Common Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.6.0
+                http://www.keil.com/pack/ARM.CMSIS.5.0.1.pack
+                ARM.CMSIS.5.0.1
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.0.1
 
 Package Vendor: ArteryTek
                 
@@ -68,36 +190,36 @@ Package Vendor: ArteryTek
 <h2>Collection of Component include folders:</h2>
   .\RTE\Device\-AT32F421K8T7
   .\RTE\_Target_1
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include
   C:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Firmware\Peripherals\inc
   C:\Keil_v5\ARM\PACK\ArteryTek\AT32F421_DFP\2.0.5\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ArteryTek::Device:startup:2.0.0
-      Source file:   Device\Source\ARM\startup_at32f421.s
-      Include file:  Device\Include\at32f421.h
       Source file:   Device\Source\system_at32f421.c
+      Include file:  Device\Include\at32f421.h
+      Source file:   Device\Source\ARM\startup_at32f421.s
 
    * Component: ArteryTek::Device:at32f421_firmware_library:wdt:2.0.0
-      Include file:  Device\Firmware\Peripherals\inc\at32f421_wdt.h
       Source file:   Device\Firmware\Peripherals\src\at32f421_wdt.c
+      Include file:  Device\Firmware\Peripherals\inc\at32f421_wdt.h
 
    * Component: ArteryTek::Device:at32f421_firmware_library:tmr:2.0.0
-      Include file:  Device\Firmware\Peripherals\inc\at32f421_tmr.h
       Source file:   Device\Firmware\Peripherals\src\at32f421_tmr.c
+      Include file:  Device\Firmware\Peripherals\inc\at32f421_tmr.h
 
    * Component: ArteryTek::Device:at32f421_firmware_library:misc:2.0.0
-      Source file:   Device\Firmware\Peripherals\src\at32f421_misc.c
       Include file:  Device\Firmware\Peripherals\inc\at32f421_misc.h
+      Source file:   Device\Firmware\Peripherals\src\at32f421_misc.c
 
    * Component: ArteryTek::Device:at32f421_firmware_library:gpio:2.0.0
       Include file:  Device\Firmware\Peripherals\inc\at32f421_gpio.h
       Source file:   Device\Firmware\Peripherals\src\at32f421_gpio.c
 
    * Component: ArteryTek::Device:at32f421_firmware_library:flash:2.0.0
-      Source file:   Device\Firmware\Peripherals\src\at32f421_flash.c
       Include file:  Device\Firmware\Peripherals\inc\at32f421_flash.h
+      Source file:   Device\Firmware\Peripherals\src\at32f421_flash.c
 
    * Component: ArteryTek::Device:at32f421_firmware_library:crm:2.0.0
       Include file:  Device\Firmware\Peripherals\inc\at32f421_crm.h
@@ -110,8 +232,9 @@ Package Vendor: ArteryTek
    * Component: ArteryTek::Device:at32f421_conf:2.0.0
       Include file:  Device\Include\at32f421_conf.h
 
-   * Component: ARM::CMSIS:CORE:5.6.0
-Build Time Elapsed:  00:00:01
+   * Component: ARM::CMSIS:CORE:5.0.1
+Target not created.
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>
